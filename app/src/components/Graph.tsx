@@ -51,12 +51,22 @@ const GraphData = (props: any) => {
         setProducts(props.products);
         //console.log(products)
         //console.log(products.title)
-        console.log(products.products)
+        //console.log(products.products)
         setChartData(prevState => ({
             ...prevState,
-            labels: prevState.labels.concat(props.products.products.map((product: any) => product.title))
+            labels: prevState.labels.concat(props.products.products.map((product: any) => product.title)),
+            datasets: [
+                {
+                    ...prevState.datasets[0],
+                    data: props.products.products.map((product: any) => product.price),
+                },
+                {
+                    ...prevState.datasets[1],
+                    data: props.products.products.map((product: any) => product.discountedPrice),
+                },
+            ],
         }));
-        console.log(chartData)
+        console.log(products)
         // Cleanup function
         return () => {
             setData(null);
@@ -66,7 +76,7 @@ const GraphData = (props: any) => {
                 datasets: [
                     {
                         label: "Price",
-                        data: [1, 2, 3, 1],
+                        data: [],
                         fill: false,
                         backgroundColor: "rgb(255,99,132)",
                         borderColor: "rgba(255,99,132,.8)",
@@ -85,7 +95,6 @@ const GraphData = (props: any) => {
 
     return (
         <>
-
             <Line data={chartData} />
         </>
     )
@@ -93,16 +102,12 @@ const GraphData = (props: any) => {
 
 const Graph = (props: any) => {
     const [cart, setCart] = useState<Carts>({ carts: [] });
-    const [products, setProducts] = useState<string[]>([]);
-    const [prices, setPrices] = useState<number[]>([]);
-    const [test, setTest] = useState([]);
+
 
     useEffect(() => {
         // Update cart state
-        setCart(props.cartData);
-        // cart.carts.forEach(el =>{
-        //     console.log(el)
-        // })
+        setCart(prevState => prevState = props.cartData);
+
 
 
     }, [props.cartData]);
@@ -124,6 +129,7 @@ const Graph = (props: any) => {
                             <li key={product.id}>
 
                                 {product.title} - {product.price}$
+                                {product.discountedPrice}
 
                             </li>
                         ))}

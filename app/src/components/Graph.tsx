@@ -12,7 +12,6 @@ import {
     Legend,
 } from "chart.js";
 
-
 // Register the category scale with Chart.js
 Chart.register(
     CategoryScale,
@@ -26,7 +25,7 @@ Chart.register(
 
 const GraphData = (props: any) => {
     const [data, setData] = useState(props.data);
-    const [products, setProducts] = useState(props.products)
+    const [products, setProducts] = useState(props.products);
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
         datasets: [
@@ -52,9 +51,11 @@ const GraphData = (props: any) => {
         //console.log(products)
         //console.log(products.title)
         //console.log(products.products)
-        setChartData(prevState => ({
+        setChartData((prevState) => ({
             ...prevState,
-            labels: prevState.labels.concat(props.products.products.map((product: any) => product.title)),
+            labels: prevState.labels.concat(
+                props.products.products.map((product: any) => product.title)
+            ),
             datasets: [
                 {
                     ...prevState.datasets[0],
@@ -62,11 +63,13 @@ const GraphData = (props: any) => {
                 },
                 {
                     ...prevState.datasets[1],
-                    data: props.products.products.map((product: any) => product.discountedPrice),
+                    data: props.products.products.map(
+                        (product: any) => product.discountedPrice
+                    ),
                 },
             ],
         }));
-        console.log(products)
+        //console.log(products);
         // Cleanup function
         return () => {
             setData(null);
@@ -97,45 +100,34 @@ const GraphData = (props: any) => {
         <>
             <Line data={chartData} />
         </>
-    )
-}
+    );
+};
 
 const Graph = (props: any) => {
     const [cart, setCart] = useState<Carts>({ carts: [] });
 
-
     useEffect(() => {
-        // Update cart state
-        setCart(prevState => prevState = props.cartData);
-
-
-
+        setCart((prevState) => (prevState = props.cartData));
     }, [props.cartData]);
-    let labels = [];
 
     return (
         <>
-
-            {cart.carts.map((item, i) => (
-                <>
-                    {/* {console.log(item.products)} */}
-                    <GraphData products={item} />
-
-                    <div>{item.id}</div>
-                    <ul>
-
-
-                        {item.products.map(product => (
-                            <li key={product.id}>
-
-                                {product.title} - {product.price}$
-                                {product.discountedPrice}
-
-                            </li>
-                        ))}
-                    </ul>
-                </>
-            ))}
+            <div className="cart">
+                {cart.carts.map((item, i) => (
+                    <>
+                        <GraphData products={item} />
+                        <div>{item.id}</div>
+                        <ul>
+                            {item.products.map((product) => (
+                                <li key={product.id}>
+                                    {product.title} - {product.price}${product.discountedPrice}
+                                </li>
+                            ))}
+                        </ul>
+                    
+                    </>
+                ))}
+            </div>
         </>
     );
 };

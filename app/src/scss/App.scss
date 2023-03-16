@@ -1,0 +1,21 @@
+.app{
+  
+  
+    canvas{
+        max-width: 20rem;
+    }
+}
+.container-carts{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: green;
+    padding: 1rem;
+    .container--carts-cart{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        background: red;
+    }
+}

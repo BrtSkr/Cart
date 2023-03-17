@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Cart, Carts, ChartData } from "../interfaces/ICart";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
+import '../scss/Graph.scss'
 import {
     Chart,
     CategoryScale,
@@ -26,8 +27,6 @@ Chart.register(
 );
 
 const GraphData = (props: any) => {
-    const [data, setData] = useState(props.data);
-    const [products, setProducts] = useState(props.products);
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
         datasets: [
@@ -48,8 +47,7 @@ const GraphData = (props: any) => {
         ],
     });
     useEffect(() => {
-        setData(props.data);
-        setProducts(props.products);
+
         setChartData((prevState) => ({
             ...prevState,
             labels: prevState.labels.concat(
@@ -71,8 +69,6 @@ const GraphData = (props: any) => {
      
         // Cleanup function
         return () => {
-            setData(null);
-            setProducts(null);
             setChartData({
                 labels: [],
                 datasets: [
@@ -105,7 +101,7 @@ const GraphData = (props: any) => {
 const Graph = (props: any) => {
     const {cartID} = useParams();
     const [cart, setCart] = useState<Cart>();
-    
+
     useEffect(() => {
         axios.get(`https://dummyjson.com/carts/${cartID}`).then((res) => {
             console.log(res.data.products)
@@ -115,14 +111,20 @@ const Graph = (props: any) => {
 
     return (
         <>
+            <Link  to={'/'}>
+                <button className="back-button">Go back</button>
+            </Link>
             <div className="cart">
                 {cart?.products?.map(item => (
                     <>
-                    <p>{item.title}</p>
-                    <p>{item.price}</p>
+                    <div className="cart-items">
+                        <p>Item: {item.title}</p>
+                        <p>Price: {item.price}$</p>
+                        <p>Discounted price: {item.discountedPrice}$</p>
+                    </div>
                     </>
                 ))}
-                {cart === undefined ? <div>Test</div> : <GraphData products={cart}/>}
+                {cart === undefined ? <div>Cart is undefined/empty/data is different</div> : <GraphData products={cart}/>}
               
             </div>
         </>

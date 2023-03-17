@@ -1,0 +1,27 @@
+@import './utility/variables.scss';
+.back-button{
+ margin: .5rem 0 0 .5rem;
+}
+.cart{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 1.15rem;
+    gap: 1rem;
+    canvas{
+        margin: 5rem 0 0 0;
+        max-height: 30rem;
+    }
+    .cart-items{
+        display: flex;
+        flex-direction: column;
+        background: $bg-evelated;
+        margin: 1rem 0 0 0;
+        padding: 1rem;
+        border-radius: .5rem;
+        p{
+            margin: 0;
+        }
+    }
+}

@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { Carts } from "../interfaces/ICart";
-import axios from "axios";
-import "../scss/Carts.scss";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { Carts } from "../interfaces/ICart";
+import "../scss/Carts.scss";
+
 const UserCarts = (props: any) => {
     const [userCarts, setUserCarts] = useState<Carts>({ carts: [] });
     const [userID, setUserID] = useState<number>(1);
@@ -65,6 +66,7 @@ const UserCarts = (props: any) => {
             <section className="panel">
                 <div className="panel-add">
                     <input
+                        placeholder="UserID"
                         type="number"
                         max={100}
                         onChange={(e) => {
@@ -75,12 +77,14 @@ const UserCarts = (props: any) => {
                         }}
                     />
                     <input
+                        placeholder="ItemID"
                         type="number"
                         onChange={(e) =>
                             setItemID((prevState) => (prevState = parseInt(e.target.value)))
                         }
                     />
                     <input
+                        placeholder="ItemQuantity"
                         type="number"
                         onChange={(e) =>
                             setItemCount(
@@ -90,7 +94,6 @@ const UserCarts = (props: any) => {
                     />
                     <button onClick={() => addCart()}>Add cart</button>
                 </div>
-                <div className="panel-remove"></div>
             </section>
             <section className="container-carts">
                 {userCarts.carts.map((userCart) => (
@@ -103,11 +106,11 @@ const UserCarts = (props: any) => {
                             >
                                 Delete
                             </button>
-                            <button>
-                                <Link className="check-button" to={`cart/${userCart.id}`}>
-                                    Check
-                                </Link>
-                            </button>
+
+                            <Link className="check-button" to={`cart/${userCart.id}`}>
+                                <button>Check</button>
+                            </Link>
+
                         </div>
                     </div>
                 ))}

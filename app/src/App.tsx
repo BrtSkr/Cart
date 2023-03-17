@@ -1,34 +1,30 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./scss/App.scss"
-import axios from "axios";
-import { Line } from "react-chartjs-2";
-import Graph from "./components/Graph";
-import UserCarts from "./components/Carts";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-//Interfaces
+import axios from "axios";
 import { Product, Cart, Carts } from "./interfaces/ICart";
+import UserCarts from "./components/Carts";
+import Graph from "./components/Graph";
+import "./scss/App.scss";
 
-const App = () => {
-
+const App: React.FC = () => {
   const [cart, setCart] = useState<Carts>({ carts: [] });
-  const [userCarts, setUserCarts] = useState();
-  useEffect(() => {
-    axios.get("https://dummyjson.com/carts").then((res) => {
-      setCart(prevState => prevState = { carts: res.data.carts });
-    });
-  }, []);
 
+  useEffect(() => {
+    const fetchCartData = async () => {
+      const response = await axios.get("https://dummyjson.com/carts");
+      setCart({ carts: response.data.carts });
+    };
+    fetchCartData();
+  }, []);
 
   return (
     <div className="app">
       <Routes>
-       <Route path="/" element={<UserCarts  userCarts={cart}/>}/>
-       <Route path="cart/:cartID" element={<Graph/>}/>
-      </Routes> 
+        <Route path="/" element={<UserCarts userCarts={cart} />} />
+        <Route path="cart/:cartID" element={<Graph />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;

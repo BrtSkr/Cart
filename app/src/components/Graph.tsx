@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Cart, Carts, ChartData } from "../interfaces/ICart";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 import {
     Chart,
     CategoryScale,
@@ -48,9 +50,6 @@ const GraphData = (props: any) => {
     useEffect(() => {
         setData(props.data);
         setProducts(props.products);
-        //console.log(products)
-        //console.log(products.title)
-        //console.log(products.products)
         setChartData((prevState) => ({
             ...prevState,
             labels: prevState.labels.concat(
@@ -69,7 +68,7 @@ const GraphData = (props: any) => {
                 },
             ],
         }));
-        //console.log(products);
+     
         // Cleanup function
         return () => {
             setData(null);
@@ -104,29 +103,27 @@ const GraphData = (props: any) => {
 };
 
 const Graph = (props: any) => {
-    const [cart, setCart] = useState<Carts>({ carts: [] });
-
+    const {cartID} = useParams();
+    const [cart, setCart] = useState<Cart>();
+    
     useEffect(() => {
-        setCart((prevState) => (prevState = props.cartData));
-    }, [props.cartData]);
+        axios.get(`https://dummyjson.com/carts/${cartID}`).then((res) => {
+            console.log(res.data.products)
+            setCart(prevState => prevState =  res.data );
+          });
+    }, [cartID]);
 
     return (
         <>
             <div className="cart">
-                {cart.carts.map((item, i) => (
+                {cart?.products?.map(item => (
                     <>
-                        <GraphData products={item} />
-                        <div>{item.id}</div>
-                        <ul>
-                            {item.products.map((product) => (
-                                <li key={product.id}>
-                                    {product.title} - {product.price}${product.discountedPrice}
-                                </li>
-                            ))}
-                        </ul>
-                    
+                    <p>{item.title}</p>
+                    <p>{item.price}</p>
                     </>
                 ))}
+                {cart === undefined ? <div>Test</div> : <GraphData products={cart}/>}
+              
             </div>
         </>
     );

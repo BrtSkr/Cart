@@ -1,21 +1,12 @@
-.app{
-  
-  
-    canvas{
-        max-width: 20rem;
-    }
+// Define dark theme colors
+$background-color: #2b2b2b;
+$text-color: #fff;
+$accent-color: #0074d9;
+$delete-color: #ff4136;
+$check-color: #2ecc40;
+
+// Define styles for background
+body {
+  background-color: $background-color;
 }
-.container-carts{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 1rem;
-    background: green;
-    padding: 1rem;
-    .container--carts-cart{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        background: red;
-    }
-}
+

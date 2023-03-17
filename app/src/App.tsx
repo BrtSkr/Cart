@@ -6,6 +6,7 @@ import axios from "axios";
 import { Line } from "react-chartjs-2";
 import Graph from "./components/Graph";
 import UserCarts from "./components/Carts";
+import { Routes, Route } from "react-router-dom";
 //Interfaces
 import { Product, Cart, Carts } from "./interfaces/ICart";
 
@@ -22,8 +23,10 @@ const App = () => {
 
   return (
     <div className="app">
-      <UserCarts userCarts={cart}/>
-      <Graph cartData={cart}/>
+      <Routes>
+       <Route path="/" element={<UserCarts  userCarts={cart}/>}/>
+       <Route path="cart/:cartID" element={<Graph/>}/>
+      </Routes> 
     </div>
   );
 }

@@ -89,7 +89,7 @@ const GraphData = (props: any) => {
                 ],
             });
         };
-    }, [props.data, props.products]);
+    }, [props.products]);
 
     return (
         <>
@@ -117,7 +117,7 @@ const Graph = (props: any) => {
             <div className="cart">
                 {cart?.products?.map(item => (
                     <>
-                    <div className="cart-items">
+                    <div key={item.id} className="cart-items">
                         <p>Item: {item.title}</p>
                         <p>Price: {item.price}$</p>
                         <p>Discounted price: {item.discountedPrice}$</p>
